@@ -1,0 +1,13 @@
+for i in ../BWA_MEM_with_mm38/*_sorted.bam; do 
+	python ./split_mouse_human_v2.py -o . $i
+	SAMPLE=$(basename $i .bam)
+	MOUSE_PREFIX=${SAMPLE}_mm
+	HUMAN_PREFIX=${SAMPLE}_hs
+	samtools sort -T temp -n -O BAM -@4 -l 0 ${MOUSE_PREFIX}.bam | samtools fixmate -@4 -O BAM - - | samtools sort -T $MOUSE_PREFIX -@ 4 -O BAM -o ${MOUSE_PREFIX}_fixed_sorted.bam
+	samtools sort -T temp -n -O BAM -@4 -l 0 ${HUMAN_PREFIX}.bam | samtools fixmate -@4 -O BAM - - | samtools sort -T $HUMAN_PREFIX -@ 4 -O BAM -o ${HUMAN_PREFIX}_fixed_sorted.bam
+	samtools index -@ 4 ${MOUSE_PREFIX}_fixed_sorted.bam
+	samtools index -@ 4 ${HUMAN_PREFIX}_fixed_sorted.bam
+	rm ${MOUSE_PREFIX}.bam
+	rm ${HUMAN_PREFIX}.bam
+done
+

@@ -1,0 +1,14 @@
+DATA_FOLDER=../../../mapping/DNA_hg38/BWA_MEM_hs_only
+REGIONS=/data_genome1/References/AgilentSureSelect/Human_Exome_V6_UTR/hg38/S07604624_Covered_fixed.bed
+
+SAMPLES=$(cut -f 1 ../../../metadata/DNA/all_samples_aggregated.txt)
+
+function run_pipeline { s=$1; bash ./pipeline_preprocessing.sh $DATA_FOLDER $s $REGIONS &> ${s}.log; }
+export -f run_pipeline
+export DATA_FOLDER
+export REGIONS
+
+echo $SAMPLES | sed -e 's/ /\n/g' | parallel -t -j 4 run_pipeline
+
+#for i in *_merged_dedup_realign.bam; do samtools view -b -F 1024 $i > $(basename $i _merged_dedup_realign.bam)_dups_removed.bam; done
+#for i in *_dups_removed.bam; do samtools index $i; done

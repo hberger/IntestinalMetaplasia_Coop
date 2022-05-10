@@ -1,0 +1,12 @@
+# compress and add Tabix indices
+PROJECT_NAME=__project-name__GRCh38_WXS_calls
+
+# merge samples in one VCF file
+bcftools merge --force-samples -m none ../*_pass.vcf.gz > ${PROJECT_NAME}_merged.vcf
+
+
+cat ${PROJECT_NAME}_merged.vcf | vcf-sort | bgzip -c > ${PROJECT_NAME}_merged.vcf.gz
+tabix -p vcf ${PROJECT_NAME}_merged.vcf.gz
+
+
+

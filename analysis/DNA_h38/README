@@ -1,0 +1,7 @@
+General pipeline
+
+- run GATK preprocessing (make sure to install GATK >= v4 and the GATK resource bundle for GRChg38). Exome sequencing calling also requires a definition of the capture regions in a bed file
+- run Mutect2 for small variant calling for each sample compared to germ line, then merge calls from all samples and annotate using SnpEff
+- run DeDup to remove duplicate reads
+- run CNVkit/Contra/ADTex_CV for calling of copy number variants
+

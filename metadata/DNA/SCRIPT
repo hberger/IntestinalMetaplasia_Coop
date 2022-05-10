@@ -1,0 +1,5 @@
+FILE_LIST=all_files_2021-01-13.txt
+for i in ../../seqs/DNA/all/*.fastq.gz; do echo $(readlink -f $i) >> $FILE_LIST; done
+cat $FILE_LIST | python ./extract_per_sample_files.py > all_samples_aggregated.txt # one line per sample, all input files for R1 or R2, respectively, concatenated by comma
+cat $FILE_LIST | python ./extract_per_lane_files.py > files_by_sample_and_lane.txt # one line per sample and sequencing lane - mainly for GATK processing
+

@@ -1,0 +1,3 @@
+for f in ../BWA_MEM_split/*_sorted_hs_fixed_sorted.bam*; do 
+  ln -s $f .
+done

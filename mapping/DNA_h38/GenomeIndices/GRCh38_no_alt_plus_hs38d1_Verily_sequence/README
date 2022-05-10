@@ -1,0 +1,3 @@
+- Download genome sequence from URL in SOURCE
+- Unpack .gz
+- Create genome index by running SCRIPT_DICT (adjust GATK path before) 
